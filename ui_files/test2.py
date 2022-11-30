@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 
 
 class Ui_MainWindow(object):
@@ -42,13 +43,38 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.first.clicked.connect(self.show_first)
-        self.second.clicked.connect(self.show_second)
+        self.second.clicked.connect(self.show_popup)
+        # self.second.clicked.connect(self.show_second)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.first.setText(_translate("MainWindow", "1st Picture"))
         self.second.setText(_translate("MainWindow", "2nd Picture"))
+
+    def show_popup(self):
+        msg = QMessageBox()
+        msg.setWindowTitle("Tutorial on PyQT5")
+        msg.setText("This is the main text!")
+        # msg.setIcon(QMessageBox.Critical)
+        # msg.setIcon(QMessageBox.Warning)
+        # msg.setIcon(QMessageBox.Information)
+        msg.setIcon(QMessageBox.Question)
+
+        msg.setStandardButtons(QMessageBox.Cancel|QMessageBox.Retry|QMessageBox.Ignore)
+        msg.setDefaultButton(QMessageBox.Ignore)
+        msg.setInformativeText("Information")
+
+        msg.setDetailedText("details")
+        msg.buttonClicked.connect(self.popup_button)
+
+        x = msg.exec_()
+    
+    def popup_button(self, i):
+        print(i.text())
+
+
+        
 
     def show_first(self):
         self.photo.setPixmap(QtGui.QPixmap("../imgs/cook.png"))
