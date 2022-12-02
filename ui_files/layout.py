@@ -5,17 +5,29 @@ from PyQt5.QtWidgets import (
     QDialog,
     QMainWindow
 )
-from demoLineEdits import Ui_MainWindow
+from demoRadioButton1 import Ui_Dialog
 
-class MyForm(QMainWindow):
+class MyForm(QDialog):
     def __init__(self):
         super().__init__()
-        self.ui = Ui_MainWindow()
+        self.ui = Ui_Dialog()
         self.ui.setupUi(self)
-        self.ui.ButtonClickMe.clicked.connect(self.dispmessage)
+        self.ui.radioButtonFirstClass.toggled.connect(self.dispFare)
+        self.ui.radioButtonSecondClass.toggled.connect(self.dispFare)
+        self.ui.radioButtonEconomyClass.toggled.connect(self.dispFare)
         self.show()
-    def dispmessage(self):
-        self.ui.labelResponse.setText("Hello " + self.ui.lineEditName.text())
+
+    def dispFare(self):
+        fare = 0
+        if self.ui.radioButtonFirstClass.isChecked() == True:
+            fare = 150
+        if self.ui.radioButtonSecondClass.isChecked() == True:
+            fare = 120
+        if self.ui.radioButtonEconomyClass.isChecked() == True:
+            fare = 100
+        self.ui.labelFare.setText("Air Fare is "+str(fare))
+
+    
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
