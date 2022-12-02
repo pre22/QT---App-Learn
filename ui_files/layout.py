@@ -5,27 +5,40 @@ from PyQt5.QtWidgets import (
     QDialog,
     QMainWindow
 )
-from demoRadioButton1 import Ui_Dialog
+from demoRadioButton2 import Ui_Dialog
 
 class MyForm(QDialog):
     def __init__(self):
         super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
-        self.ui.radioButtonFirstClass.toggled.connect(self.dispFare)
-        self.ui.radioButtonSecondClass.toggled.connect(self.dispFare)
-        self.ui.radioButtonEconomyClass.toggled.connect(self.dispFare)
+        self.ui.radioButtonMedium.toggled.connect(self.dispSelected)
+        self.ui.radioButtonLarge.toggled.connect(self.dispSelected)
+        self.ui.radioButtonXL.toggled.connect(self.dispSelected)
+        self.ui.radioButtonXXL.toggled.connect(self.dispSelected)
+        self.ui.radioButtonDebitCard.toggled.connect(self.dispSelected)
+        self.ui.radioButtonNetBanking.toggled.connect(self.dispSelected)
+        self.ui.radioButtonCashOnDelivery.toggled.connect(self.dispSelected)
         self.show()
 
-    def dispFare(self):
-        fare = 0
-        if self.ui.radioButtonFirstClass.isChecked() == True:
-            fare = 150
-        if self.ui.radioButtonSecondClass.isChecked() == True:
-            fare = 120
-        if self.ui.radioButtonEconomyClass.isChecked() == True:
-            fare = 100
-        self.ui.labelFare.setText("Air Fare is "+str(fare))
+    def dispSelected(self):
+        selected1 = ""
+        selected2 = ""
+        if self.ui.radioButtonMedium.isChecked() == True:
+            selected1 = "Medium"
+        if self.ui.radioButtonLarge.isChecked() == True:
+            selected1 = "Large"
+        if self.ui.radioButtonXL.isChecked() == True:
+            selected1 = "Extra Large"
+        if self.ui.radioButtonXXL.isChecked() == True:
+            selected1 = "Extra Extra Large"
+        if self.ui.radioButtonDebitCard.isChecked() == True:
+            selected2 = "Debit/Credit Card"
+        if self.ui.radioButtonNetBanking.isChecked() == True:
+            selected2 = "Net Banking"
+        if self.ui.radioButtonCashOnDelivery.isChecked() == True:
+            selected2 = "Cash On Delivery"
+        self.ui.labelSelected.setText("Chosen shirt size is " +selected1+" and payment method as " +selected2)
 
     
 
