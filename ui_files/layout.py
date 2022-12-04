@@ -5,41 +5,41 @@ from PyQt5.QtWidgets import (
     QDialog,
     QMainWindow
 )
-from demoCheckBox2 import Ui_Dialog
+from demoSpinner import Ui_Dialog
 
 class MyForm(QDialog):
     def __init__(self):
         super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
-        self.ui.checkBoxChocolateAlmond.stateChanged.connect(self.dispAmount)
-        self.ui.checkBoxChocolateChips.stateChanged.connect(self.dispAmount)
-        self.ui.checkBoxCookieDough.stateChanged.connect(self.dispAmount)
-        self.ui.checkBoxRockyRoad.stateChanged.connect(self.dispAmount)
-        self.ui.checkBoxCoffee.stateChanged.connect(self.dispAmount)
-        self.ui.checkBoxSoda.stateChanged.connect(self.dispAmount)
-        self.ui.checkBoxTea.stateChanged.connect(self.dispAmount)
+        self.ui.spinBoxBookQty.editingFinished.connect(self.result1)
+        self.ui.doubleSpinBoxSugarWeight.editingFinished.connect(self.result2)
         self.show()
 
-    def dispAmount(self):
-        amount = 0
-
-        if self.ui.checkBoxChocolateAlmond.isChecked()==True:
-            amount=amount+3
-        if self.ui.checkBoxChocolateChips.isChecked()==True:
-            amount=amount+4
-        if self.ui.checkBoxCookieDough.isChecked()==True:
-            amount=amount+2
-        if self.ui.checkBoxRockyRoad.isChecked()==True:
-            amount=amount+5
-        if self.ui.checkBoxCoffee.isChecked()==True:
-            amount=amount+2
-        if self.ui.checkBoxSoda.isChecked()==True:
-            amount=amount+3
-        if self.ui.checkBoxTea.isChecked()==True:
-            amount=amount+1
+    def result1(self):
+        if len(self.ui.lineEditBookPrice.text())!=0:
+            bookPrice=int(self.ui.lineEditBookPrice.text())
+        else:
+            bookPrice=0
+        totalBookAmount=self.ui.spinBoxBookQty.value() * bookPrice
+        self.ui.lineEditBookAmount.setText(str(totalBookAmount))
+    
+    def result2(self):
+        if len(self.ui.lineEditSugarPrice.text())!=0:
+            sugarPrice=float(self.ui.lineEditSugarPrice.text())
+        else:
+            sugarPrice=0
+        totalSugarAmount=self.ui.doubleSpinBoxSugarWeight.value() * sugarPrice
+        self.ui.lineEditSugarAmount.setText(str(round(totalSugarAmount,2)))
         
-        self.ui.labelAmount.setText("Total amount is $"+str(amount))
+        totalBookAmount=int(self.ui.lineEditBookAmount.text())
+        totalAmount=totalBookAmount+totalSugarAmount
+        
+        self.ui.labelTotalAmount.setText(str(round(totalAmount,2)))
+
+
+
+        
 
     
 
