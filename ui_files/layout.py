@@ -1,5 +1,6 @@
 import sys
 
+from PyQt5 import QtGui
 from PyQt5.QtWidgets import (
     QApplication,
     QDialog,
@@ -7,28 +8,22 @@ from PyQt5.QtWidgets import (
     QInputDialog,
     QListWidgetItem
 )
-from demoComboBox import Ui_Dialog
+from demoFontComboBox import Ui_Dialog
 
 class MyForm(QDialog):
     def __init__(self):
         super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
-        self.ui.comboBoxAccountType.currentIndexChanged.connect(self.dispAccountType)
+        myFont = QtGui.QFont(self.ui.fontComboBox.itemText(self.ui.fontComboBox.currentIndex()),15)
+        self.ui.textEdit.setFont(myFont)
+        self.ui.fontComboBox.currentFontChanged.connect(self.changeFont)
         self.show()
     
-    def dispAccountType(self):
-        self.ui.labelAccountType.setText("You have selected "+self.ui.comboBoxAccountType.itemText(self.ui.comboBoxAccountType.currentIndex()))
+    def changeFont(self):
+        myFont = QtGui.QFont(self.ui.fontComboBox.itemText(self.ui.fontComboBox.currentIndex()),15)
+        self.ui.textEdit.setFont(myFont)
 
-    
-
-
-
-
-
-        
-
-    
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
