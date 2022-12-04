@@ -8,30 +8,21 @@ from PyQt5.QtWidgets import (
     QInputDialog,
     QListWidgetItem
 )
-from demoSlider import Ui_Dialog
+from demoInputDialog import Ui_Dialog
 
 class MyForm(QDialog):
     def __init__(self):
         super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
-        self.ui.horizontalScrollBarSugarLevel.valueChanged.connect(self.scrollhorizontal)
-        self.ui.verticalScrollBarPulseRate.valueChanged.connect(self.scrollvertical)
-        self.ui.horizontalSliderBloodPressure.valueChanged.connect(self.sliderhorizontal)
-        self.ui.verticalSliderCholestLevel.valueChanged.connect(self.slidervertical)
+        self.ui.pushButtonCountry.clicked.connect(self.dispmessage)
         self.show()
  
-    def scrollhorizontal(self,value):
-        self.ui.lineEditResult.setText("Sugar Level : "+str(value))
-    
-    def scrollvertical(self, value):
-        self.ui.lineEditResult.setText("Pulse Rate : "+str(value))
-    
-    def sliderhorizontal(self, value):
-        self.ui.lineEditResult.setText("Blood Pressure : "+str(value))
-
-    def slidervertical(self, value):
-        self.ui.lineEditResult.setText("Cholestrol Level : "+str(value))
+    def dispmessage(self):
+        countries = ("Albania", "Algeria", "Andorra", "Angola","Antigua and Barbuda", "Argentina", "Armenia", "Aruba","Australia", "Austria", "Azerbaijan")
+        countryName, ok = QInputDialog.getItem(self, "Input Dialog", "List of countries", countries, 0, False)
+        if ok and countryName:
+            self.ui.lineEditCountry.setText(countryName)
 
 
 if __name__ == "__main__":
