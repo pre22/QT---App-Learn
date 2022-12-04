@@ -8,22 +8,30 @@ from PyQt5.QtWidgets import (
     QInputDialog,
     QListWidgetItem
 )
-from demoProgressBar import Ui_Dialog
+from demoSlider import Ui_Dialog
 
 class MyForm(QDialog):
     def __init__(self):
         super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
-        self.ui.pushButtonStart.clicked.connect(self.updateBar)
+        self.ui.horizontalScrollBarSugarLevel.valueChanged.connect(self.scrollhorizontal)
+        self.ui.verticalScrollBarPulseRate.valueChanged.connect(self.scrollvertical)
+        self.ui.horizontalSliderBloodPressure.valueChanged.connect(self.sliderhorizontal)
+        self.ui.verticalSliderCholestLevel.valueChanged.connect(self.slidervertical)
         self.show()
+ 
+    def scrollhorizontal(self,value):
+        self.ui.lineEditResult.setText("Sugar Level : "+str(value))
     
+    def scrollvertical(self, value):
+        self.ui.lineEditResult.setText("Pulse Rate : "+str(value))
     
-    def updateBar(self):
-        x = 0
-        while x < 100:
-            x += 0.0001
-            self.ui.progressBar.setValue(x)
+    def sliderhorizontal(self, value):
+        self.ui.lineEditResult.setText("Blood Pressure : "+str(value))
+
+    def slidervertical(self, value):
+        self.ui.lineEditResult.setText("Cholestrol Level : "+str(value))
 
 
 if __name__ == "__main__":
