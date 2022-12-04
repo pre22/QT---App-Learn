@@ -5,18 +5,23 @@ from PyQt5.QtWidgets import (
     QDialog,
     QMainWindow
 )
-from demoListWidget import Ui_Dialog
+from demoListWidget2 import Ui_Dialog
 
 class MyForm(QDialog):
     def __init__(self):
         super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
-        self.ui.listWidgetDiagnosis.itemClicked.connect(self.dispSelectedTest)
+        self.ui.listWidgetDiagnosis.itemSelectionChanged.connect(self.dispSelectedTest)
+        # self.ui.listWidgetDiagnosis.itemClicked.connect(self.dispSelectedTest)
         self.show()
     
     def dispSelectedTest(self):
-        self.ui.labelTest.setText("You have selected "+self.ui.listWidgetDiagnosis.currentItem().text())
+        self.ui.listWidgetSelectedTests.clear()
+        items = self.ui.listWidgetDiagnosis.selectedItems()
+        for i in list(items):
+            self.ui.listWidgetSelectedTests.addItem(i.text())
+
 
 
 
