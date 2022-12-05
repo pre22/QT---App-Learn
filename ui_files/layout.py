@@ -6,23 +6,38 @@ from PyQt5.QtWidgets import (
     QDialog,
     QMainWindow,
     QInputDialog,
-    QListWidgetItem
+    QListWidgetItem,
+    QFileDialog
 )
-from demoInputDialog import Ui_Dialog
+from demoFileDialog import Ui_MainWindow
 
-class MyForm(QDialog):
+class MyForm(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.ui = Ui_Dialog()
+        self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.pushButtonCountry.clicked.connect(self.dispmessage)
+        self.ui.actionOpen.triggered.connect(self.openFileDialog)
+        self.ui.actionSave.triggered.connect(self.saveFileDialog)
         self.show()
+    
+    def openFileDialog(self):
+        fname =  QFileDialog.getOpenFileName(self, 'Open file', '/home')
+        if fname[0]:
+            f = open(fname[0], 'r')
+        with f:
+            data = f.read()
+        self.ui.textEdit.setText(data)
+
+    def saveFileDialog(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getSaveFileName(self, "QFileDialog.getSaveFileName()","","All Files (*);;Text Files (*.txt)",options=options)
+        f = open(fileName,'w')
+        text = self.ui.textEdit.toPlainText()
+        f.write(text)
+        f.close()
+
  
-    def dispmessage(self):
-        countries = ("Albania", "Algeria", "Andorra", "Angola","Antigua and Barbuda", "Argentina", "Armenia", "Aruba","Australia", "Austria", "Azerbaijan")
-        countryName, ok = QInputDialog.getItem(self, "Input Dialog", "List of countries", countries, 0, False)
-        if ok and countryName:
-            self.ui.lineEditCountry.setText(countryName)
 
 
 if __name__ == "__main__":
